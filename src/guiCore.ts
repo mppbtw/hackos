@@ -140,10 +140,10 @@ export class WindowIcon extends PIXI.Container {
   sprite: PIXI.Sprite;
   spriteResource: string;
 
-  constructor() {
+  constructor(spriteResource: string) {
     super();
-    this.spriteResource = "axe.png";
-    this.sprite = new PIXI.Sprite(PIXI.textureFrom("axe.png"))
+    this.spriteResource = spriteResource;
+    this.sprite = new PIXI.Sprite(PIXI.textureFrom(this.spriteResource))
     this.addChild(this.sprite);
     this.sprite.width = top_bar_height;
     this.sprite.height = top_bar_height;
@@ -234,7 +234,7 @@ export class Window extends PIXI.Container {
       .fill(windowBarColor);
     this.addChild(this.top_bar);
 
-    this.icon = new WindowIcon();
+    this.icon = new WindowIcon("stop.webp");
     this.addChild(this.icon);
 
     this.title = new PIXI.Text({

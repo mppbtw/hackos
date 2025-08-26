@@ -20,7 +20,6 @@ class CmdHistory {
 
         this.index++;
         let cmd = this.cmds[this.cmds.length - this.index];
-        console.log("index:", this.index);
         return cmd
     }
 
@@ -30,7 +29,6 @@ class CmdHistory {
         }
         this.index--;
         let cmd = this.cmds[this.cmds.length-this.index];
-        console.log("index:", this.index);
         return cmd;
     }
 }
@@ -117,13 +115,11 @@ Type 'help' for a list of common commands
             return;
         } else if (event.key == "ArrowUp") {
             let previous = this.cmdHistory.previous();
-            console.log("previous: ", previous);
             if (previous != undefined) {
                 this.cmdBuffer = previous;
             }
         } else if (event.key == "ArrowDown") {
             let next = this.cmdHistory.next();
-            console.log("next: ", next);
             if (next != undefined) {
                 this.cmdBuffer = next;
             } else {
@@ -406,12 +402,10 @@ mediaviewer        Plays image/audio/video files`
                 return "error: no such file: " + cmd[1];
             }
             let extension = asFile.name.split(".")[asFile.name.split(".").length-1];
-            console.log("extension:", extension);
-            if (extension == "jpeg") {
-                this.imageViewer("coolcrate.png");
+            if (extension == "png") {
+                this.imageViewer(asFile.name);
             } else if (extension == "mp3") {
                 this.musicPlayer(cmd[1].split("/")[cmd[1].split("/").length-1]);
-
             } else {
                 return "error: mediaviewer cannot read this type of file";
             }

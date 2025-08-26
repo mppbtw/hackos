@@ -1,8 +1,9 @@
 import * as PIXI from "pixi.js"
+import * as howl from "howler";
+import { app } from "./main";
 import {
     notificationWindowColor,
 } from "./constants";
-
 
 export class ImageViewer extends PIXI.Container {
   background: PIXI.Graphics;
@@ -11,6 +12,7 @@ export class ImageViewer extends PIXI.Container {
   constructor(imgResource: string) {
     super();
     this.image = new PIXI.Sprite(PIXI.textureFrom(imgResource));
+    this.image.scale = 0.1
     this.image.width = 500;
     this.image.height = 500;
 
@@ -35,6 +37,16 @@ class PlayerBar extends PIXI.Container {
     dragged: boolean = false;
     pause: Function;
     play: Function;
+    hovering: boolean = false;
+    seek: Function;
+
+    redrawCircle() {
+        if (this.hovering) {
+            this.renderHoverCircle();
+        } else {
+            this.renderCircle();
+        }
+    }
 
     renderCircle() {
         this.circle.clear();
@@ -75,19 +87,6 @@ class PlayerBar extends PIXI.Container {
             )
             .fill(new PIXI.Color("lightgray"));
 
-        let t = this;
-        this.circle.interactive = true;
-        this.circle.onmousedown = function() {
-            t.dragged = true;
-            t.pause();
-        }
-        document.addEventListener("mouseup", function(event) {
-            t.handleMouseUp(event);
-        });
-        document.addEventListener("mousemove", function(event) {
-            if (t.dragged)
-                t.handleMouseMove(event);
-        });
     }
 
     handleMouseMove(event: MouseEvent) {
@@ -105,6 +104,7 @@ class PlayerBar extends PIXI.Container {
 
     handleMouseUp(_event: MouseEvent) {
         if (this.dragged) {
+            this.seek(this.scrollPosition);
             this.play()
         }
         this.dragged = false;
@@ -116,8 +116,9 @@ class PlayerBar extends PIXI.Container {
         document.removeEventListener("mousemove", this.handleMouseMove);
     }
 
-    constructor(play: Function, pause: Function) {
+    constructor(play: Function, pause: Function, seek: Function) {
         super();
+        this.seek = seek;
         this.play = play;
         this.pause = pause;
         this.bar = new PIXI.Graphics();
@@ -132,17 +133,32 @@ class PlayerBar extends PIXI.Container {
         let t = this;
         this.circle.interactive = true;
         this.circle.onmouseover = function() {
+            t.hovering = true;
             t.renderHoverCircle();
         }
         this.circle.onmouseleave = function() {
+            t.hovering = false;
             t.renderCircle();
         }
+        this.circle.interactive = true;
+        this.circle.onmousedown = function() {
+            t.dragged = true;
+            t.pause();
+        }
+        document.addEventListener("mouseup", function(event) {
+            t.handleMouseUp(event);
+        });
+        document.addEventListener("mousemove", function(event) {
+            if (t.dragged)
+                t.handleMouseMove(event);
+        });
     }
 }
 
 class MediaButtons extends PIXI.Container {
     playbutton: Playbutton;
-    togglePause: Function
+    togglePause: Function;
+    restartButton: RestartButton;
 
     constructor(togglePause: Function) {
         super();
@@ -154,6 +170,69 @@ class MediaButtons extends PIXI.Container {
         this.playbutton.onclick = function() {
             t.togglePause();
         }
+
+        this.restartButton = new RestartButton();
+        this.restartButton.x = this.playbutton.width + 20;
+        this.addChild(this.restartButton);
+    }
+}
+
+class RestartButton extends PIXI.Container {
+    symbol: PIXI.Graphics;
+    background: PIXI.Graphics;
+    buttonWidth: number = 50;
+    borderThickness: number = 2;
+
+    createRestartButton(): PIXI.Graphics {
+        return this.symbol
+            .regularPoly(this.width/2, this.height/2, 20, 3, -Math.PI/2)
+            .rect(5, 10, 5, this.height-20);
+    }
+
+    regularRender() {
+        this.background.clear();
+        this.background
+            .rect(0, 0, this.buttonWidth, this.buttonWidth)
+            .fill(new PIXI.Color("black"));
+        this.background
+            .rect(
+                this.borderThickness,
+                this.borderThickness,
+                this.buttonWidth - 2*this.borderThickness,
+                this.buttonWidth - 2*this.borderThickness,
+            )
+            .fill(new PIXI.Color("lightgray"));
+        this.symbol.clear();
+        this.createRestartButton().fill(new PIXI.Color("black"));
+    }
+
+    hoverOverRender() {
+        this.background.clear();
+        this.background
+            .rect(0, 0, this.buttonWidth, this.buttonWidth)
+            .fill(new PIXI.Color("black"));
+        this.background
+            .rect(
+                this.borderThickness,
+                this.borderThickness,
+                this.buttonWidth - 2*this.borderThickness,
+                this.buttonWidth - 2*this.borderThickness,
+            )
+            .fill(new PIXI.Color("gray"));
+        this.symbol.clear();
+        this.createRestartButton().fill(new PIXI.Color("lightgray"));
+    }
+
+    constructor() {
+        super();
+        this.symbol = new PIXI.Graphics();
+        this.background = new PIXI.Graphics();
+        this.interactive = true;
+        this.addChild(this.background);
+        this.addChild(this.symbol);
+        this.regularRender();
+        this.onmouseover = this.hoverOverRender;
+        this.onmouseleave = this.regularRender;
     }
 }
 
@@ -250,28 +329,33 @@ export class MusicPlayer extends PIXI.Container {
   playerBar: PlayerBar;
   playing: boolean = false;
   mediaButtons: MediaButtons;
+  sound: howl.Howl;
 
   onDestroyed() {
       this.playerBar.onDestroyed();
   }
 
   play() {
+      this.sound.play();
       this.playing = true;
       this.mediaButtons.playbutton.play();
-      console.log("playing video!");
   }
 
   pause() {
+      this.sound.pause();
       this.playing = false;
-      console.log("media:", this.mediaButtons);
-      console.log("this:", this);
-      console.log("button:", this.mediaButtons.playbutton);
-      console.log("pausing video!");
       this.mediaButtons.playbutton.pause();
   }
 
   constructor(audioResource: string) {
     super();
+    this.sound = new howl.Howl({
+        src: ["assets/" + audioResource],
+        html5: true,
+        volume: 0.3,
+    });
+    this.sound.load();
+
     this.background = new PIXI.Graphics();
     this.addChild(this.background);
 
@@ -280,6 +364,8 @@ export class MusicPlayer extends PIXI.Container {
         t.play();
     }, function() {
         t.pause();
+    }, function(pos: number) {
+        t.sound.seek(pos * t.sound.duration());
     });
     this.playerBar.x = 50;
     this.playerBar.y = 50;
@@ -301,6 +387,27 @@ export class MusicPlayer extends PIXI.Container {
     this.background
       .rect(0, 0, this.width+100, this.height+100)
       .fill(notificationWindowColor);
+    this.pause();
+    this.play();
+    this.pause();
+
+    this.mediaButtons.restartButton.onclick = function() {
+        t.sound.seek(0);
+        t.playerBar.scrollPosition = 0;
+        t.playerBar.redrawCircle();
+    }
+
+    app.ticker.add(() => {
+        if (t.playing) {
+            t.playerBar.scrollPosition = t.sound.seek()/t.sound.duration();
+            t.playerBar.redrawCircle();
+        }
+        if (t.playerBar.scrollPosition == 1) {
+            t.playerBar.scrollPosition = 0;
+            t.sound.seek(0);
+            t.play();
+        }
+    });
   }
 }
 

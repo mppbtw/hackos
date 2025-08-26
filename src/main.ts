@@ -13,7 +13,7 @@ import { ImageViewer, MusicPlayer } from "./mediaviewer.ts";
 PIXI.TextureStyle.defaultOptions.scaleMode = "nearest";
 
 
-const app = new PIXI.Application();
+export const app = new PIXI.Application();
 
 (async () => {
   await app.init({
@@ -25,7 +25,12 @@ const app = new PIXI.Application();
   });
 })().then(allTheStuff);
 
+function showLoadingScreen() {
+
+}
+
 async function allTheStuff() {
+  await showLoadingScreen();
 
   document.body.appendChild(app.canvas);
 
@@ -36,12 +41,7 @@ async function allTheStuff() {
     app.renderer.resize(window.innerWidth, window.innerHeight);
   });
 
-  PIXI.Assets.add({alias: "atlas", src: "assets/atlas.json"});
-  PIXI.Assets.add({alias: "tilemap", src: "assets/tilemap.json"});
-  PIXI.Assets.add({alias: "items", src: "assets/items.json"});
-  await PIXI.Assets.load(["atlas"])
-  await PIXI.Assets.load(["items"])
-  await PIXI.Assets.load(["tilemap"])
+  await PIXI.Assets.load(["stop.webp", "doggydog.png"]);
 
   var taskBar = new TaskBar();
   taskBar.y = window.innerHeight - taskBar.innerHeight;
@@ -66,6 +66,7 @@ async function allTheStuff() {
     app.stage.addChild(audioWin);
     audioWin.onWindowClose = function() {
       audioContent.destroy();
+      audioContent.sound.stop();
     }
   }
 
@@ -93,7 +94,7 @@ async function allTheStuff() {
   }
 
 
-  let notificationShortcut = new Shortcut("gun.png");
+  let notificationShortcut = new Shortcut("stop.webp");
   app.stage.addChild(notificationShortcut);
   notificationShortcut.x = 50;
   notificationShortcut.y = 50;
@@ -139,8 +140,7 @@ async function allTheStuff() {
   let pictures = new HackOSDirectory("Pictures");
   simoneDir.contents.push(pictures);
 
-    let dogPhoto = new HackOSFile("doggydog.jpeg");
-    dogPhoto.contents = "<insert doge here>";
+    let dogPhoto = new HackOSFile("doggydog.png");
     pictures.contents.push(dogPhoto);
 
   let music = new HackOSDirectory("Music");
@@ -174,7 +174,7 @@ async function allTheStuff() {
   let file = new HackOSFile("test.txt");
   file.contents = "you have read the file\n second line yeha\n";
 
-  let terminalShortcut = new Shortcut("stone.png");
+  let terminalShortcut = new Shortcut("stop.webp");
   app.stage.addChild(terminalShortcut);
   terminalShortcut.x = 50;
   terminalShortcut.y = 150;
