@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js"
-import { backgroundColor, taskBarHeight } from "./constants"
+import { taskBarHeight } from "./constants"
 import { Window } from "./guiCore";
 
 const taskBarColor = new PIXI.Color("blue");

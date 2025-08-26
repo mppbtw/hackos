@@ -192,6 +192,7 @@ export class Window extends PIXI.Container {
     document.removeEventListener("mouseup", this.handleMouseUp);
     document.removeEventListener("mousemove", this.handleMouseMove);
     this.onWindowClose();
+    this.content.destroy();
     this.destroy();
   }
 

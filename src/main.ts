@@ -64,6 +64,9 @@ async function allTheStuff() {
     let audioWin = new Window(audioContent, "MediaViewer: " + audioResource, taskBar);
     audioWin.onWindowClose = audioContent.onDestroyed;
     app.stage.addChild(audioWin);
+    audioWin.onWindowClose = function() {
+      audioContent.destroy();
+    }
   }
 
   function spawnImageViewer(imgResource: string) {

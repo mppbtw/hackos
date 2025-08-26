@@ -6,7 +6,7 @@ const terminalHeight = 600;
 const terminalMaxLines = 18;
 
 class CmdHistory {
-    cmds: string[] = ["first", "second", "third"];
+    cmds: string[] = [];
     index: number = 0;
 
     reset() {
@@ -148,6 +148,8 @@ Type 'help' for a list of common commands
         this.currentCommandStartIndex = this.text.text.length;
 
         this.handleScroll();
+        this.cmdHistory.cmds.push(this.cmdBuffer);
+        this.cmdHistory.reset();
         this.cmdBuffer = "";
     }
 
@@ -241,7 +243,7 @@ class Shell {
         }
     }
 
-    searchAbsolutePath(path: string[]): FileSystemComponent | undefined {
+    searchAbsolutePath(path: string[]): FilesystemComponent | undefined {
         if (path.length == 1 && path[0] == "/") {
             return this.fs;
         }
@@ -288,15 +290,33 @@ cat <FileName>     Read the contents of a file
 clear              Clears the screen
 mediaviewer        Plays image/audio/video files`
         } else if (cmd[0] == "ls") {
-            let workingDir: undefined | FilesystemComponent
-                = this.searchAbsolutePath(this.workingDir);
-            if (workingDir == undefined) {
-                return "Error: could not complete action";
+            let targetDir = undefined;
+            if (cmd.length < 2) {
+                let workingDir: undefined | FilesystemComponent
+                    = this.searchAbsolutePath(this.workingDir);
+                if (workingDir == undefined) {
+                    return "Error: could not complete action";
+                }
+                let asDir = workingDir.asHackOSDirectory();
+                if (asDir == undefined) {
+                    return "error: ls only works with directories, not files"
+                }
+                targetDir = asDir;
+            } else {
+                targetDir = this.evaluatePath(cmd[1]);
+                if (targetDir == undefined) {
+                    return "error: cannot find " + cmd[1];
+                }
+                targetDir = this.searchAbsolutePath(targetDir);
+                if (targetDir == undefined) {
+                    return "error: cannot find " + cmd[1];
+                }
             }
-            let asDir = workingDir.asHackOSDirectory();
+            let asDir = targetDir.asHackOSDirectory();
             if (asDir == undefined) {
-                return "error: ls only works with directories, not files"
+                return "error: " + cmd[1] + " is a file, not a directory"
             }
+            
             let resultString = "";
             let currentLineLength = 0;
             for (let i=0; i<asDir.contents.length; i++) {
@@ -362,7 +382,7 @@ mediaviewer        Plays image/audio/video files`
             if (asFile == undefined) {
                 return "error: no such file: " + cmd[1];
             }
-            if (asFile.name.split(".")[-1] != ".txt") {
+            if (asFile.name.split(".")[asFile.name.split(".").length - 1] != "txt") {
                 return "error: cat cannot read this type of file";
             }
             return asFile.contents;
@@ -390,7 +410,8 @@ mediaviewer        Plays image/audio/video files`
             if (extension == "jpeg") {
                 this.imageViewer("coolcrate.png");
             } else if (extension == "mp3") {
-                this.musicPlayer(cmd[1]);
+                this.musicPlayer(cmd[1].split("/")[cmd[1].split("/").length-1]);
+
             } else {
                 return "error: mediaviewer cannot read this type of file";
             }
