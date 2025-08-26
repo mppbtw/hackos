@@ -42,7 +42,7 @@ export class Terminal extends PIXI.Container {
     focus: boolean = true;
     currentCommandStartIndex: number;
 
-    cmdBuffer: string = "mediaviewer Music/careless_whisper.mp3";
+    cmdBuffer: string = "";
     cmdHistory: CmdHistory = new CmdHistory();
 
     shell: Shell;
