@@ -17,6 +17,9 @@ export class Notification extends PIXI.Container {
     this.text = new PIXI.Text({
       text: text,
     });
+    this.text.style.fontFamily = "Press Start 2P";
+    this.text.style.fontSize = 13;
+    this.text.style.fontWeight = "lighter";
     this.text.x = notification_message_padding;
     this.text.y = verticalTextBoxPadding;
 

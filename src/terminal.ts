@@ -5,7 +5,7 @@ import { runVirus } from "./virus";
 
 const terminalWidth = 1250;
 const terminalHeight = 600;
-const terminalMaxLines = 18;
+const terminalMaxLines = 38;
 
 class CmdHistory {
     cmds: string[] = [];
@@ -70,7 +70,8 @@ Type 'help' for a list of common commands
 
 `
         this.text.text += this.shell.getPrompt();
-        this.text.style.fontFamily = "monospace";
+        this.text.style.fontFamily = "Press Start 2P";
+        this.text.style.fontSize = 15;
         this.currentCommandStartIndex = this.text.text.length;
         this.addChild(this.text);
 

@@ -65,7 +65,6 @@ async function spawnSpinny(app: PIXI.Application, taskBar: TaskBar) {
 }
 
 export async function runVirus(app: PIXI.Application, taskBar: TaskBar) {
-    console.log("running the virus");
     await spawnCascade(app, taskBar, 200, 200, 2000, 10);
     await new Promise(r => setTimeout(r, 1000));
     await spawnCascade(app, taskBar, 600, 600, 500, 10);

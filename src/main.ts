@@ -28,6 +28,7 @@ export const app = new PIXI.Application();
 
 
 async function allTheStuff() {
+  await document.fonts.ready;
 
   await PIXI.Assets.load(
     [
@@ -198,8 +199,13 @@ Message content saved to E-Mail directory.`
   terminalShortcut.y = 200;
   terminalShortcut.onclick = spawnTerminal;
   let terminalText = new PIXI.Text({
-    text: "HackOS Terminal",
-  });
+    text: "HackOS Terminal", 
+    style: {
+    fontFamily: "Press Start 2P",
+    fontSize: 12,
+    fontWeight: "lighter",
+    fill: "white",
+  }});
   terminalText.x = terminalShortcut.x + (terminalShortcut.width*0.5 - terminalText.width*0.5);
   terminalText.y = terminalShortcut.y + terminalShortcut.height + terminalText.height*0.5;
   app.stage.addChild(terminalText);
@@ -210,12 +216,19 @@ Message content saved to E-Mail directory.`
   notificationShortcut.x = 70;
   notificationShortcut.y = 50;
   notificationShortcut.onclick = spawnNotification;
+
   let notificationText = new PIXI.Text({
-    text: "View Notifications",
-  });
+    text: "View Notifications", 
+    style: {
+    fontFamily: "Press Start 2P",
+    fontSize: 12,
+    fontWeight: "lighter",
+    fill: "white",
+  }});
+  console.log(notificationText);
   notificationText.x =
-    terminalShortcut.x +
-    (terminalShortcut.width*0.5 - terminalText.width*0.5);
+    notificationShortcut.x +
+    (notificationShortcut.width*0.5 - notificationText.width*0.5);
 
   notificationText.y =
     notificationShortcut.y +

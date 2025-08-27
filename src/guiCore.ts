@@ -244,8 +244,15 @@ export class Window extends PIXI.Container {
     this.title = new PIXI.Text({
       text: " " + title,
       scale: 1,
+      style: {
+        fontFamily: "Press Start 2P",
+        fontWeight: "lighter",
+        fontSize: 15,
+        fill: "white"
+      }
     });
     this.title.x = this.icon.width;
+    this.title.y = top_bar_height*0.5-(0.5*this.title.height);
     this.addChild(this.title);
 
     this.border = new PIXI.Graphics();
@@ -313,20 +320,8 @@ export class Button extends PIXI.Container {
   text: PIXI.Text;
 
   regularRender() {
-    this.graphics
-      .rect(0, 0, buttonWidth, buttonHeight)
-      .fill(new PIXI.Color("black"));
-
-    this.graphics
-      .rect(
-        buttonBorderThickness,
-        buttonBorderThickness,
-        buttonWidth-buttonBorderThickness*2,
-        buttonHeight-buttonBorderThickness*2)
-      .fill(new PIXI.Color("white"));
-  }
-
-  hoverOverRender() {
+    if (this.text != undefined)
+      this.text.style.fill = "white";
     this.graphics
       .rect(0, 0, buttonWidth, buttonHeight)
       .fill(new PIXI.Color("black"));
@@ -340,16 +335,35 @@ export class Button extends PIXI.Container {
       .fill(new PIXI.Color("lightblue"));
   }
 
+  hoverOverRender() {
+    if (this.text != undefined)
+      this.text.style.fill = "black";
+    this.graphics
+      .rect(0, 0, buttonWidth, buttonHeight)
+      .fill(new PIXI.Color("black"));
+
+    this.graphics
+      .rect(
+        buttonBorderThickness,
+        buttonBorderThickness,
+        buttonWidth-buttonBorderThickness*2,
+        buttonHeight-buttonBorderThickness*2)
+      .fill(new PIXI.Color("white"));
+  }
+
   constructor(label: string) {
     super()
     this.interactive = true;
     this.graphics = new PIXI.Graphics();
     this.addChild(this.graphics);
-
     this.regularRender();
+
     this.text = new PIXI.Text({
       text: label
     });
+    this.text.style.fontFamily = "Press Start 2P";
+    this.text.style.fontSize = 12;
+    this.text.style.fill = "white";
     this.text.x = (0.5*this.width) - (0.5*this.text.width);
     this.text.y = (0.5*this.height) - (0.5*this.text.height);
     this.addChild(this.text);
@@ -360,6 +374,7 @@ export class Button extends PIXI.Container {
     this.onmouseover = function() {
       this.hoverOverRender();
     };
+    this.regularRender();
   }
 }
 

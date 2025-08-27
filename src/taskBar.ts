@@ -56,7 +56,8 @@ class TaskBarClock extends PIXI.Container {
             t.updateTime();
         }, 1000);
         this.text.style.fill = new PIXI.Color("white");
-        this.text.style.fontFamily = "sans-serif";
+        this.text.style.fontFamily = "Press Start 2P";
+        this.text.style.fontSize = 14;
         this.addChild(this.text);
 
         this.background
@@ -224,7 +225,6 @@ export class TaskBar extends PIXI.Container {
         this.addChild(this.clock);
 
         this.innerHeight = this.height;
-        console.log(this.height);
         
         this.border = new PIXI.Graphics();
         this.drawBorders();
