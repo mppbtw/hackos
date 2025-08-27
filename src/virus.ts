@@ -26,6 +26,7 @@ function createVirusWindow(app: PIXI.Application, taskBar: TaskBar, x: number, y
         virusContent,
         "You've been MELON'd",
         taskBar,
+        "melonman.png",
         x,
         y
     );

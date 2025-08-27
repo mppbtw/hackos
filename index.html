@@ -5,11 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HackOS Remote Access Tool</title>
     <link rel="stylesheet" href="loginpage.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
   </head>
   <body>
     <div class="loginpage">
       <h1>HackOS Remote Tool</a></h1>
+      <div style="margin-left: 15%; text-align: left; justify-self: center; justify-content: center">
+        <form onsubmit="onSubmit()" id="form" autocomplete="off">
+          <label><br>Enter System Username:</label>
+          <input id="username">
+          <label><br>Enter Password:</label>
+          <input id="password" type="password">
+          <input type="submit" name="submit" style="visibility: hidden; width: 0px">
+        </form>
+      </div>
     </div>
-  <p class="footer">Copyright (C) Simone Imeyolek</p>
+    <p class="footer">Copyright (C) Simone Imeyolek</p>
+    <script>
+      document
+        .getElementById("form")
+        .addEventListener("submit", (event) => event.preventDefault());
+
+      function onSubmit() {
+        console.log(document.getElementById("password").value);
+        console.log(document.getElementById("username").value);
+        if (document.getElementById("username").value === "S1m0ne") {
+          if (document.getElementById("password").value === "ilovechickens123") {
+            document.getElementById("password").style.backgroundColor = "green";
+            document.getElementById("username").style.backgroundColor = "green";
+            setTimeout(() => {
+              document.getElementById("password").style.backgroundColor = "lightgray";
+              document.getElementById("username").style.backgroundColor = "lightgray";
+              document.getElementById("username").focus();
+            }, 200);
+            setTimeout(() => {window.location.replace("remote.html");}, 500);
+            
+            return
+          }
+        }
+        document.getElementById("password").style.backgroundColor = "red";
+        document.getElementById("username").style.backgroundColor = "red";
+
+        setTimeout(() => {
+          document.getElementById("password").style.backgroundColor = "lightgray";
+          document.getElementById("username").style.backgroundColor = "lightgray";
+          document.getElementById("password").value = "";
+          document.getElementById("username").value = "";
+          document.getElementById("username").focus();
+        }, 200);
+      }
+    </script>
   </body>
 </html>

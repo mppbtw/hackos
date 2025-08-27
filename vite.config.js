@@ -1,12 +1,16 @@
-import { defineConfig } from "vite"
+import { resolve } from "path";
+import { defineConfig } from "vite";
 
 export default defineConfig({
-    base: "/hackos/",
-    build: {
-        target: "esnext",
-        rollupOptions: {
-            output: {
-            },
-        },
-    }
-})
+  base: "/hackos/",
+  plugins: [],
+  build: {
+    target: "esnext",
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, "index.html"),
+        remote: resolve(__dirname, "remote.html"),
+      },
+    },
+  },
+});

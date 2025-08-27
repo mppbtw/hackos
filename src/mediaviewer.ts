@@ -351,7 +351,7 @@ export class MusicPlayer extends PIXI.Container {
     this.sound = new howl.Howl({
         src: [audioResource],
         html5: true,
-        volume: 0.3,
+        volume: 1,
     });
     this.sound.load();
 

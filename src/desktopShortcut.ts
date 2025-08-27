@@ -14,7 +14,7 @@ export class Shortcut extends PIXI.Container {
     hoverOverRender() {
         this.background.clear();
         this.background
-            .roundRect(0, 0, desktopShortcutWidth, desktopShortcutWidth, desktopShortcutRadius)
+            .roundRect(-15, -15, desktopShortcutWidth+30, desktopShortcutWidth+30, desktopShortcutRadius)
             .fill(new PIXI.Color("blue"));
     }
 

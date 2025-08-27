@@ -44,6 +44,7 @@ export class Terminal extends PIXI.Container {
 
     cmdBuffer: string = "";
     cmdHistory: CmdHistory = new CmdHistory();
+    cursorPos: number = 0;
 
     shell: Shell;
 
@@ -84,16 +85,13 @@ Type 'help' for a list of common commands
 
     displayCmdBuffer() {
         this.text.text = this.text.text.substring(0, this.currentCommandStartIndex);
-        if (this.cmdBuffer.length > 60) {
-            this.text.text +=
-                this.cmdBuffer.substring(0, 60)
-                + "\n"
-                + this.cmdBuffer.substring(60, this.cmdBuffer.length);
-            this.handleScroll();
-        } else {
-            this.text.text += this.cmdBuffer
-        }
-        this.text.text += "_";
+        let buf = this.cmdBuffer;
+        buf =
+            buf.substring(0, this.cursorPos)
+        + "_"
+        + buf.substring(this.cursorPos, buf.length);
+
+        this.text.text += buf;
     }
 
     handleScroll() {
@@ -112,10 +110,40 @@ Type 'help' for a list of common commands
     handleKeyDown(event: KeyboardEvent) {
         if (!this.focus) return;
         if (event.key.length === 1) {
-            this.cmdBuffer += event.key;
+            if (this.cmdBuffer.length > 40) {
+                return;
+            }
+            let p = this.cursorPos;
+            this.cmdBuffer = [
+                this.cmdBuffer.slice(0, p),
+                event.key,
+                this.cmdBuffer.slice(p)
+            ].join('');
+            this.cursorPos++;
         } else if (event.key == "Backspace") {
             if (this.cmdBuffer.length >= 1) {
-                this.cmdBuffer = this.cmdBuffer.substring(0, this.cmdBuffer.length-1);
+                this.cmdBuffer =
+                    this.cmdBuffer.substring(0, this.cursorPos-1)
+                    + this.cmdBuffer.substring(this.cursorPos, this.cmdBuffer.length);
+                this.cursorPos = Math.max(0, this.cursorPos - 1);
+            }
+        } else if (event.key == "Delete") {
+            if (this.cursorPos < this.cmdBuffer.length) {
+                this.cursorPos++;
+            }
+            if (this.cmdBuffer.length >= 1) {
+                this.cmdBuffer =
+                    this.cmdBuffer.substring(0, this.cursorPos-1)
+                    + this.cmdBuffer.substring(this.cursorPos, this.cmdBuffer.length);
+                this.cursorPos = Math.max(0, this.cursorPos - 1);
+            }
+        } else if (event.key == "ArrowLeft") {
+            if (this.cursorPos > 0) {
+                this.cursorPos--;
+            }
+        } else if (event.key == "ArrowRight") {
+            if (this.cursorPos < this.cmdBuffer.length) {
+                this.cursorPos++;
             }
         } else if (event.key == "Enter") {
             this.handleCommand();
@@ -125,6 +153,7 @@ Type 'help' for a list of common commands
             if (previous != undefined) {
                 this.cmdBuffer = previous;
             }
+            this.cursorPos = this.cmdBuffer.length;
         } else if (event.key == "ArrowDown") {
             let next = this.cmdHistory.next();
             if (next != undefined) {
@@ -133,12 +162,14 @@ Type 'help' for a list of common commands
                 this.cmdBuffer = "";
                 this.cmdHistory.reset();
             }
+            this.cursorPos = this.cmdBuffer.length;
         }
 
         this.displayCmdBuffer();
     }
 
     handleCommand() {
+        this.cursorPos = 0;
         this.text.text = this.text.text.substring(0, this.text.text.length-1);
         this.text.text += "\n";
         if (this.cmdBuffer == "clear") {
@@ -155,8 +186,10 @@ Type 'help' for a list of common commands
         this.currentCommandStartIndex = this.text.text.length;
 
         this.handleScroll();
-        this.cmdHistory.cmds.push(this.cmdBuffer);
-        this.cmdHistory.reset();
+        if (this.cmdBuffer != "") {
+            this.cmdHistory.cmds.push(this.cmdBuffer);
+            this.cmdHistory.reset();
+        }
         this.cmdBuffer = "";
     }
 

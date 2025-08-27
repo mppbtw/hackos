@@ -63,7 +63,7 @@ async function allTheStuff() {
   app.stage.addChild(taskBar);
 
   function spawnNotification() {
-    new Howl({src: "notify.mp3", autoplay: true, volume: 2});
+    new Howl({src: "notify.mp3", autoplay: true, volume: 1});
     let notif_content =
       new Notification(
         `You have one new message from: lucy@hackmail.co
@@ -115,12 +115,6 @@ Message content saved to E-Mail directory.`
     app.stage.addChild(win);
   }
 
-
-  let notificationShortcut = new Shortcut("stop.webp");
-  app.stage.addChild(notificationShortcut);
-  notificationShortcut.x = 50;
-  notificationShortcut.y = 50;
-  notificationShortcut.onclick = spawnNotification;
 
   let linuxRootLevelDirs = [
     "bin",
@@ -199,11 +193,36 @@ Message content saved to E-Mail directory.`
   loveLetter.contents = "my dearest simone";
   emailsLucy.contents.push(loveLetter);
 
-  let terminalShortcut = new Shortcut("stop.webp");
-  app.stage.addChild(terminalShortcut);
-  terminalShortcut.x = 50;
-  terminalShortcut.y = 150;
+  let terminalShortcut = new Shortcut("terminal.png");
+  terminalShortcut.x = 70;
+  terminalShortcut.y = 200;
   terminalShortcut.onclick = spawnTerminal;
+  let terminalText = new PIXI.Text({
+    text: "HackOS Terminal",
+  });
+  terminalText.x = terminalShortcut.x + (terminalShortcut.width*0.5 - terminalText.width*0.5);
+  terminalText.y = terminalShortcut.y + terminalShortcut.height + terminalText.height*0.5;
+  app.stage.addChild(terminalText);
+  app.stage.addChild(terminalShortcut);
+
+
+  let notificationShortcut = new Shortcut("mail.png");
+  notificationShortcut.x = 70;
+  notificationShortcut.y = 50;
+  notificationShortcut.onclick = spawnNotification;
+  let notificationText = new PIXI.Text({
+    text: "View Notifications",
+  });
+  notificationText.x =
+    terminalShortcut.x +
+    (terminalShortcut.width*0.5 - terminalText.width*0.5);
+
+  notificationText.y =
+    notificationShortcut.y +
+    notificationShortcut.height + notificationText.height*0.5;
+
+  app.stage.addChild(notificationText);
+  app.stage.addChild(notificationShortcut);
 
   setTimeout(spawnNotification, 3000);
 }
