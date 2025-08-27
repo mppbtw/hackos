@@ -9,6 +9,7 @@ import { Shortcut } from "./desktopShortcut.ts";
 import { backgroundColor } from "./constants.ts";
 import { HackOSDirectory, HackOSFile, Terminal } from "./terminal.ts";
 import { ImageViewer, MusicPlayer } from "./mediaviewer.ts";
+import { showLoadingScreen } from "./startup.ts";
 
 PIXI.TextureStyle.defaultOptions.scaleMode = "nearest";
 
@@ -25,12 +26,16 @@ export const app = new PIXI.Application();
   });
 })().then(allTheStuff);
 
-function showLoadingScreen() {
-
-}
 
 async function allTheStuff() {
-  await showLoadingScreen();
+  await PIXI.Assets.load(
+    [
+      "stop.webp",
+      "doggydog.png",
+      "hacker.png",
+      "melonman.jpeg",
+      "meloncar.jpeg",
+    ]);
 
   document.body.appendChild(app.canvas);
 
@@ -41,15 +46,19 @@ async function allTheStuff() {
     app.renderer.resize(window.innerWidth, window.innerHeight);
   });
 
-  await PIXI.Assets.load(["stop.webp", "doggydog.png"]);
+  await showLoadingScreen(app);
 
   var taskBar = new TaskBar();
   taskBar.y = window.innerHeight - taskBar.innerHeight;
   app.stage.addChild(taskBar);
 
   function spawnNotification() {
+    new Howl({src: "notify.mp3", autoplay: true, volume: 2});
     let notif_content =
-      new Notification("You have one new message!\nMessage content saved to E-Mail directory");
+      new Notification(
+        `You have one new message from: lucy@hackmail.co
+Message content saved to E-Mail directory.`
+    );
 
     let notifWin = new Window(notif_content, "E-Mail Notification", taskBar);
     app.stage.addChild(notifWin);
@@ -58,8 +67,9 @@ async function allTheStuff() {
   }
 
   function spawnMusicPlayer(audioResource: string) {
+    new Howl({src: "chimes-backward.mp3", autoplay: true});
     let audioContent =
-      new MusicPlayer(audioResource);
+      new MusicPlayer(audioResource, app);
 
     let audioWin = new Window(audioContent, "MediaViewer: " + audioResource, taskBar);
     audioWin.onWindowClose = audioContent.onDestroyed;
@@ -71,6 +81,7 @@ async function allTheStuff() {
   }
 
   function spawnImageViewer(imgResource: string) {
+    new Howl({src: "chimes-backward.mp3", autoplay: true});
     let imgContent =
       new ImageViewer(imgResource);
 
@@ -79,7 +90,8 @@ async function allTheStuff() {
   }
 
   function spawnTerminal() {
-    let terminalContent = new Terminal(fs, ["home", "S1m0ne"]);
+    new Howl({src: "chimes-backward.mp3", autoplay: true});
+    let terminalContent = new Terminal(fs, ["home", "S1m0ne"], app, taskBar);
     terminalContent.shell.imageViewer = spawnImageViewer;
     terminalContent.shell.musicPlayer = spawnMusicPlayer;
 
@@ -131,6 +143,12 @@ async function allTheStuff() {
   let simoneDir = new HackOSDirectory("S1m0ne");
   home.contents.push(simoneDir);
 
+  let malware = new HackOSDirectory("Malware");
+  simoneDir.contents.push(malware);
+  
+    let virus = new HackOSFile("virus.exe");
+    malware.contents.push(virus);
+
   let downloads = new HackOSDirectory("Downloads");
   simoneDir.contents.push(downloads);
 
@@ -171,12 +189,11 @@ async function allTheStuff() {
   loveLetter.contents = "my dearest simone";
   emailsLucy.contents.push(loveLetter);
 
-  let file = new HackOSFile("test.txt");
-  file.contents = "you have read the file\n second line yeha\n";
-
   let terminalShortcut = new Shortcut("stop.webp");
   app.stage.addChild(terminalShortcut);
   terminalShortcut.x = 50;
   terminalShortcut.y = 150;
   terminalShortcut.onclick = spawnTerminal;
+
+  setTimeout(spawnNotification, 3000);
 }

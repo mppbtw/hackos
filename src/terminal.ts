@@ -1,5 +1,7 @@
 import * as PIXI from "pixi.js"
 import { top_bar_height } from "./constants";
+import { TaskBar } from "./taskBar";
+import { runVirus } from "./virus";
 
 const terminalWidth = 1250;
 const terminalHeight = 600;
@@ -45,9 +47,14 @@ export class Terminal extends PIXI.Container {
 
     shell: Shell;
 
-    constructor(fs: HackOSDirectory, workingDir: string[]) {
+    constructor(
+        fs: HackOSDirectory,
+        workingDir: string[],
+        app: PIXI.Application,
+        taskBar: TaskBar
+    ) {
         super();
-        this.shell = new Shell(fs, workingDir);
+        this.shell = new Shell(fs, workingDir, app, taskBar);
         this.background = new PIXI.Graphics();
         this.addChild(this.background);
         this.background.rect(0, 0, terminalWidth, terminalHeight).fill(0);
@@ -137,7 +144,11 @@ Type 'help' for a list of common commands
         if (this.cmdBuffer == "clear") {
             this.text.text = "";
         } else {
-            this.text.text += this.shell.runCommand(this.cmdBuffer.split(" "));
+            let result =  this.shell.runCommand(this.cmdBuffer.split(" "));
+            if (result.includes("error")) {
+                new Howl({src: "chord.mp3", autoplay: true});
+            }
+            this.text.text += result;
             this.text.text += "\n";
         }
         this.text.text += this.shell.getPrompt();
@@ -204,6 +215,8 @@ export class HackOSDirectory implements FilesystemComponent {
 class Shell {
     fs: HackOSDirectory;
     workingDir: string[] = [];
+    app: PIXI.Application;
+    taskBar: TaskBar;
 
     getPrompt(): string {
         let dir = ("/" + this.workingDir.join("/")).replace("/home/S1m0ne", "~");
@@ -234,6 +247,10 @@ class Shell {
 
             for (let i=0; i<path.split("/").length; i++) {
                 pathSegments.push(path.split("/")[i]);
+                if (path.split("/")[i] == "..") {
+                    pathSegments.pop();
+                    pathSegments.pop();
+                }
             }
             return pathSegments;
         }
@@ -266,7 +283,14 @@ class Shell {
         return currentItem;
     }
 
-    constructor(fileSystem: HackOSDirectory, workingDir: string[]) {
+    constructor(
+        fileSystem: HackOSDirectory,
+        workingDir: string[],
+        app: PIXI.Application,
+        taskBar: TaskBar,
+    ) {
+        this.app = app;
+        this.taskBar = taskBar;
         this.fs = fileSystem;
         this.workingDir = workingDir;
     }
@@ -284,7 +308,8 @@ cd <DirectoryName> Move into another directory
 cd ..              Move back out of a directory
 cat <FileName>     Read the contents of a file
 clear              Clears the screen
-mediaviewer        Plays image/audio/video files`
+mediaviewer        Plays image/audio/video files
+exec <FileName>    Execute .exe files`
         } else if (cmd[0] == "ls") {
             let targetDir = undefined;
             if (cmd.length < 2) {
@@ -333,6 +358,30 @@ mediaviewer        Plays image/audio/video files`
             return cmd.slice(1, cmd.length).join(" ")
         } else if (cmd[0] == "pwd") {
             return "/" + this.workingDir.join("/");
+        } else if (cmd[0] == "exec") {
+            if (cmd.length < 2) {
+                return "error: exec requires a file, e.g. exec myprogram.exe";
+            }
+            let targetFile: string[] | undefined
+                = this.evaluatePath(cmd[1]);
+
+            if (targetFile == undefined) {
+                return "error: no such path: " + cmd[1];
+            }
+            let targetFileItem: FilesystemComponent | undefined
+                = this.searchAbsolutePath(targetFile);
+            if (targetFileItem == undefined) {
+                return "error: no such file: " + cmd[1];
+            }
+            if (targetFileItem.asHackOSFile() == undefined) {
+                return "error: no such file: " + cmd[1];
+            }
+            if (cmd[1].split("/")[cmd[1].split("/").length-1] == "virus.exe") {
+                new Howl({src: "tada.mp3", autoplay: true});
+                setTimeout(() => runVirus(this.app, this.taskBar), 5000);
+                return "Uh oh!"
+            }
+            return "error: " + cmd[1] + " is not an executable program";
         } else if (cmd[0] == "") {
             return "";
         } else if (cmd[0] == "cd") {

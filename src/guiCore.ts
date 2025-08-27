@@ -168,9 +168,11 @@ export class Window extends PIXI.Container {
 
   toggleMinimized() {
     if (this.isMinimized) {
+      new Howl({src: "minimize.mp3", autoplay: true});
       this.onMaximize();
     }
     if (!this.isMinimized) {
+      new Howl({src: "minimize.mp3", autoplay: true});
       this.onMinimize();
     }
     this.isMinimized = !this.isMinimized;
@@ -188,6 +190,7 @@ export class Window extends PIXI.Container {
     if (this.taskBarIconId != undefined) {
       this.taskBar.removeIcon(this.taskBarIconId as number);
     }
+    new Howl({src: "chimes.mp3", autoplay: true});
     document.removeEventListener("mousedown", this.handleMouseDown);
     document.removeEventListener("mouseup", this.handleMouseUp);
     document.removeEventListener("mousemove", this.handleMouseMove);

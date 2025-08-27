@@ -1,6 +1,5 @@
 import * as PIXI from "pixi.js"
 import * as howl from "howler";
-import { app } from "./main";
 import {
     notificationWindowColor,
 } from "./constants";
@@ -186,7 +185,7 @@ class RestartButton extends PIXI.Container {
     createRestartButton(): PIXI.Graphics {
         return this.symbol
             .regularPoly(this.width/2, this.height/2, 20, 3, -Math.PI/2)
-            .rect(5, 10, 5, this.height-20);
+            .rect(5, 10, 10, this.height-20);
     }
 
     regularRender() {
@@ -347,10 +346,10 @@ export class MusicPlayer extends PIXI.Container {
       this.mediaButtons.playbutton.pause();
   }
 
-  constructor(audioResource: string) {
+  constructor(audioResource: string, app: PIXI.Application) {
     super();
     this.sound = new howl.Howl({
-        src: ["assets/" + audioResource],
+        src: [audioResource],
         html5: true,
         volume: 0.3,
     });
