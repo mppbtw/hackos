@@ -213,7 +213,7 @@ export class TaskBar extends PIXI.Container {
             .fill(taskBarColor);
         this.addChild(this.background);
 
-        this.hackOsIcon = new TaskBarIcon("stop.webp");
+        this.hackOsIcon = new TaskBarIcon("start.png");
         this.hackOsIcon.sprite.width =taskBarHeight*1.4;
         this.hackOsIcon.regularRender();
         this.addChild(this.hackOsIcon);
@@ -224,6 +224,7 @@ export class TaskBar extends PIXI.Container {
         this.addChild(this.clock);
 
         this.innerHeight = this.height;
+        console.log(this.height);
         
         this.border = new PIXI.Graphics();
         this.drawBorders();

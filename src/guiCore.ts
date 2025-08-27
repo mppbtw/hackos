@@ -205,6 +205,7 @@ export class Window extends PIXI.Container {
     content: PIXI.Container,
     title: string,
     taskBar: TaskBar,
+    iconResource: string,
     x: number = defaultWindowPosX,
     y: number = defaultWindowPosY,
   ) {
@@ -237,7 +238,7 @@ export class Window extends PIXI.Container {
       .fill(windowBarColor);
     this.addChild(this.top_bar);
 
-    this.icon = new WindowIcon("stop.webp");
+    this.icon = new WindowIcon(iconResource);
     this.addChild(this.icon);
 
     this.title = new PIXI.Text({

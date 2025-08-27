@@ -28,6 +28,7 @@ export const app = new PIXI.Application();
 
 
 async function allTheStuff() {
+
   await PIXI.Assets.load(
     [
       "stop.webp",
@@ -35,7 +36,16 @@ async function allTheStuff() {
       "hacker.png",
       "melonman.jpeg",
       "meloncar.jpeg",
+      "start.png",
+      "terminal.png",
+      "mail.png",
+      "bg.png",
     ]);
+
+  let bg = new PIXI.Sprite(PIXI.textureFrom("bg.png"));
+  bg.width = window.innerWidth;
+  bg.height = window.innerHeight-60;
+  app.stage.addChild(bg);
 
   document.body.appendChild(app.canvas);
 
@@ -60,7 +70,7 @@ async function allTheStuff() {
 Message content saved to E-Mail directory.`
     );
 
-    let notifWin = new Window(notif_content, "E-Mail Notification", taskBar);
+    let notifWin = new Window(notif_content, "E-Mail Notification", taskBar, "mail.png");
     app.stage.addChild(notifWin);
 
     notif_content.button.onclick = function() {notifWin.closeWindow()};
@@ -71,7 +81,7 @@ Message content saved to E-Mail directory.`
     let audioContent =
       new MusicPlayer(audioResource, app);
 
-    let audioWin = new Window(audioContent, "MediaViewer: " + audioResource, taskBar);
+    let audioWin = new Window(audioContent, "MediaViewer: " + audioResource, taskBar, "terminal.png");
     audioWin.onWindowClose = audioContent.onDestroyed;
     app.stage.addChild(audioWin);
     audioWin.onWindowClose = function() {
@@ -85,7 +95,7 @@ Message content saved to E-Mail directory.`
     let imgContent =
       new ImageViewer(imgResource);
 
-    let imgWin = new Window(imgContent, "MediaViewer: " + imgResource, taskBar);
+    let imgWin = new Window(imgContent, "MediaViewer: " + imgResource, taskBar, "terminal.png");
     app.stage.addChild(imgWin);
   }
 
@@ -95,7 +105,7 @@ Message content saved to E-Mail directory.`
     terminalContent.shell.imageViewer = spawnImageViewer;
     terminalContent.shell.musicPlayer = spawnMusicPlayer;
 
-    let win = new Window(terminalContent, "HackOS Terminal", taskBar);
+    let win = new Window(terminalContent, "HackOS Terminal", taskBar, "terminal.png");
     win.onMinimize = function() {
       terminalContent.focus = false;
     }
