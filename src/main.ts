@@ -199,12 +199,13 @@ Message content saved to E-Mail directory.`
   terminalShortcut.y = 200;
   terminalShortcut.onclick = spawnTerminal;
   let terminalText = new PIXI.Text({
-    text: "HackOS Terminal", 
+    text: "HackOS\nTerminal", 
     style: {
-    fontFamily: "Press Start 2P",
-    fontSize: 12,
-    fontWeight: "lighter",
-    fill: "white",
+      align: "center",
+      fontFamily: "Press Start 2P",
+      fontSize: 12,
+      fontWeight: "lighter",
+      fill: "white",
   }});
   terminalText.x = terminalShortcut.x + (terminalShortcut.width*0.5 - terminalText.width*0.5);
   terminalText.y = terminalShortcut.y + terminalShortcut.height + terminalText.height*0.5;
@@ -218,14 +219,14 @@ Message content saved to E-Mail directory.`
   notificationShortcut.onclick = spawnNotification;
 
   let notificationText = new PIXI.Text({
-    text: "View Notifications", 
+    text: "View\nNotifications", 
     style: {
-    fontFamily: "Press Start 2P",
-    fontSize: 12,
-    fontWeight: "lighter",
-    fill: "white",
-  }});
-  console.log(notificationText);
+      align: "center",
+      fontFamily: "Press Start 2P",
+      fontSize: 12,
+      fontWeight: "lighter",
+      fill: "white",
+    }});
   notificationText.x =
     notificationShortcut.x +
     (notificationShortcut.width*0.5 - notificationText.width*0.5);
