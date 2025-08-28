@@ -33,7 +33,7 @@ async function allTheStuff() {
   await PIXI.Assets.load(
     [
       "stop.webp",
-      "doggydog.png",
+      "jolene.png",
       "hacker.png",
       "melonman.jpeg",
       "meloncar.jpeg",
@@ -151,8 +151,11 @@ Message content saved to E-Mail directory.`
   let malware = new HackOSDirectory("Malware");
   simoneDir.contents.push(malware);
   
-    let virus = new HackOSFile("virus.exe");
+    let virus = new HackOSFile("melon_virus.exe");
     malware.contents.push(virus);
+
+    let disableRansom = new HackOSFile("disable_ransom.exe");
+    malware.contents.push(disableRansom);
 
   let downloads = new HackOSDirectory("Downloads");
   simoneDir.contents.push(downloads);
@@ -163,7 +166,7 @@ Message content saved to E-Mail directory.`
   let pictures = new HackOSDirectory("Pictures");
   simoneDir.contents.push(pictures);
 
-    let dogPhoto = new HackOSFile("doggydog.png");
+    let dogPhoto = new HackOSFile("jolene.png");
     pictures.contents.push(dogPhoto);
 
   let music = new HackOSDirectory("Music");
@@ -172,15 +175,6 @@ Message content saved to E-Mail directory.`
     let carelessWhisper = new HackOSFile("careless_whisper.mp3");
     carelessWhisper.contents = "<insert the jams>";
     music.contents.push(carelessWhisper);
-
-  let video = new HackOSDirectory("Videos");
-  simoneDir.contents.push(video);
-
-    let rat = new HackOSFile("rat.mp4");
-    video.contents.push(rat);
-
-    let tutorial = new HackOSFile("tutorial.mp4");
-    video.contents.push(tutorial);
 
   let emails = new HackOSDirectory("emails");
   simoneDir.contents.push(emails);

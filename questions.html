@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HackOS Remote Access Tool</title>
+    <link rel="stylesheet" href="loginpage.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+  </head>
+  <body>
+    <div class="loginpage">
+      <h1>Ransomware Killswich</a></h1>
+      <div style="margin-left: 15%; text-align: left; justify-self: center; justify-content: center">
+        <form onsubmit="onSubmit()" id="form" autocomplete="off">
+          <label><br>What was the name of your dog?</label>
+          <input id="dog">
+          <label><br>What is the name of your forbidden lover?<br></label>
+          <input id="lover">
+          <label><br>Which football team do you support?<br></label>
+          <input id="football">
+          <label><br>What is the make and model of your current car?<br></label>
+          <input id="car_model">
+          <label><br>What is the year of manufacture of the car?</label>
+          <input id="car_year">
+          <label><br>When did you get married?</label>
+          <input id="marriage">
+          <input type="submit" name="submit" style="visibility: hidden; width: 0px">
+        </form>
+      </div>
+    </div>
+    <p class="footer">Copyright (C) Simone Imeyolek</p>
+    <script>
+      document
+        .getElementById("form")
+        .addEventListener("submit", (event) => event.preventDefault());
+
+      function flashGreen(ele) {
+        ele.style.backgroundColor = "green";
+        setTimeout(
+          () => ele.style.backgroundColor = "lightgray",
+          200
+        );
+      }
+
+      function flashRed(ele) {
+        ele.style.backgroundColor = "red";
+        setTimeout(
+          () => ele.style.backgroundColor = "lightgray",
+          200
+        );
+      }
+
+      function checkElement(ele, answer) {
+        if (ele.value == "") {
+          return 0;
+        }
+        if (answer.includes(ele.value.toLowerCase())) {
+          flashGreen(ele);
+          return 1;
+        }
+        flashRed(ele);
+        return 0;
+      }
+
+      function onSubmit() {
+        console.log("submitting");
+        let numCorrect = 0;
+
+        numCorrect += checkElement(document.getElementById("dog"), ["jolene"]);
+
+        numCorrect += checkElement(document.getElementById("car_year"), ["2014"]);
+
+        numCorrect += checkElement(document.getElementById("lover"), ["lucy"]);
+
+        numCorrect +=
+          checkElement(document.getElementById("car_model"), ["nissan leaf"]);
+
+        numCorrect +=
+          checkElement(document.getElementById("football"), ["newcastle", "nufc", "newcaslte united"]);
+
+        numCorrect +=
+          checkElement(document.getElementById("marriage"), [
+            "31/10/14",
+            "31/10/2014",
+            "october 31 2014",
+            "31st october 2014",
+          ]);
+        if (numCorrect == 6) {
+          window.location.replace("didit.html");
+        }
+      }
+    </script>
+  </body>
+</html>

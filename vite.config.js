@@ -10,6 +10,8 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, "index.html"),
         remote: resolve(__dirname, "remote.html"),
+        questions: resolve(__dirname, "questions.html"),
+        didit: resolve(__dirname, "didit.html"),
       },
     },
   },

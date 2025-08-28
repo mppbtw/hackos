@@ -410,9 +410,14 @@ exec <FileName>    Execute .exe files`
             if (targetFileItem.asHackOSFile() == undefined) {
                 return "error: no such file: " + cmd[1];
             }
-            if (cmd[1].split("/")[cmd[1].split("/").length-1] == "virus.exe") {
+            if (cmd[1].split("/")[cmd[1].split("/").length-1] == "melon_virus.exe") {
                 new Howl({src: "tada.mp3", autoplay: true});
                 setTimeout(() => runVirus(this.app, this.taskBar), 5000);
+                return "Uh oh!"
+            }
+            if (cmd[1].split("/")[cmd[1].split("/").length-1] == "disable_ransom.exe") {
+                //@ts-ignore
+                window.open("questions.html", "__blank").focus();
                 return "Uh oh!"
             }
             return "error: " + cmd[1] + " is not an executable program";
