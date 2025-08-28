@@ -179,14 +179,14 @@ Message content saved to E-Mail directory.`
   let emails = new HackOSDirectory("emails");
   simoneDir.contents.push(emails);
 
-  let emailsWork = new HackOSDirectory("work");
-  emails.contents.push(emailsWork);
-  let emailsLucy = new HackOSDirectory("lucy");
-  emails.contents.push(emailsLucy);
 
-  let loveLetter = new HackOSFile("loveletter.txt");
-  loveLetter.contents = "my dearest simone";
-  emailsLucy.contents.push(loveLetter);
+  let poem1 = new HackOSFile("lucy_21_6_25.txt");
+  poem1.contents = "THVjeSwKeW91IGFyZSB0aGUgc2hhcnBuZXNzIEkgY3JhdmUsCnRoZSBnb2xkZW4gZ2xvdyBvZiBDaGVkZGFy4oCUCm15IHRydWVzdCwgYm9sZGVzdCBmYXZvcml0ZS4KTHVjeSwgbXkgZGVhcmVzdCwKSSBjb3VsZCBsaXZlIHdpdGhvdXQgQnJpZSwKSSBjb3VsZCBwYXNzIG9uIFN0aWx0b24sCmJ1dCBuZXZlcuKAlApuZXZlciB3aXRob3V0IHlvdSwKbmV2ZXIgd2l0aG91dCBDaGVkZGFyLApuZXZlciB3aXRob3V0IGxvdmUuICAgLWZyb20gc2ltb25lIHRvIGx1Y3kKCg==";
+  emails.contents.push(poem1);
+
+  let poem2 = new HackOSFile("lucy_21_7_25.txt");
+  poem2.contents = "eW91ciBsb3ZlIHdpbmRzIHRocm91Z2ggbXkgbGlmZQpsaWtlIGEgbWlsayBzbmFrZSBpbiB0aGUgZ3Jhc3PigJQKdW5leHBlY3RlZCwgZ2VudGxlLAphIGZsYXNoIG9mIGNvbG9yIHRoYXQgbWFrZXMgbWUgcGF1c2UsCnRoYXQgbWFrZXMgdGhlIHdvcmxkIHNoaW1tZXIuClRoZXkgc2F5IG1pbGsgc25ha2VzIG9ubHkgbWltaWMgZGFuZ2VyLApidXQgeW914oCZdmUgdGF1Z2h0IG1lCnRoYXQgZXZlbiB3aGF0IHNlZW1zIGZpZXJjZQpjYW4gYmUgc29mdCwKZXZlbiB3aGF0IGNvaWxzCmNhbiBhbHNvIHByb3RlY3QuCkkgaG9sZCB5b3VyIHdvcmRzIGNsb3NlLAp0aGUgd2F5IGEgc25ha2UgaG9sZHMgd2FybXRoLApnYXRoZXJpbmcgbGlnaHQgdGhyb3VnaCBldmVyeSBzY2FsZSBvZiBzaWxlbmNlLAp1bnRpbCBJIHNoaW5lIHdpdGggeW91LgpTbyBoZXJlIEkgYW3igJQKbm90IHZlbm9tLCBub3QgZmVhciwKanVzdCBMdWN5LAp0d2luaW5nIG15IGRheXMgYXJvdW5kIHlvdXJzLApmb3JldmVyLiAgICAgICAgICAgICAgICAgICAgICAgICAgICAtIGZyb20gTHVjeSB0byBTaW1vbmUK";
+  emails.contents.push(poem2);
 
   let terminalShortcut = new Shortcut("terminal.png");
   terminalShortcut.x = 70;

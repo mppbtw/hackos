@@ -343,7 +343,8 @@ cd ..              Move back out of a directory
 cat <FileName>     Read the contents of a file
 clear              Clears the screen
 mediaviewer        Plays image/audio/video files
-exec <FileName>    Execute .exe files`
+exec <FileName>    Execute .exe files
+copy <FileName>    Copy file contents into the clipboard`
         } else if (cmd[0] == "ls") {
             let targetDir = undefined;
             if (cmd.length < 2) {
@@ -392,6 +393,32 @@ exec <FileName>    Execute .exe files`
             return cmd.slice(1, cmd.length).join(" ")
         } else if (cmd[0] == "pwd") {
             return "/" + this.workingDir.join("/");
+        } else if (cmd[0] == "copy") {
+            if (cmd.length < 2) {
+                return "error: must be used copy <FILENAME>";
+            }
+            let targetFilePath = this.evaluatePath(cmd[1]);
+            if (targetFilePath == undefined) {
+                return "error: no such file: " + cmd[1];
+            }
+
+            let targetFile: FilesystemComponent | undefined
+                = this.searchAbsolutePath(targetFilePath);
+            if (targetFile == undefined) {
+                return "error: no such file: " + cmd[1];
+            }
+
+            let asFile = targetFile.asHackOSFile();
+            if (asFile == undefined) {
+                return "error: no such file: " + cmd[1];
+            }
+
+            if (asFile.name.split(".")[asFile.name.split(".").length - 1] != "txt") {
+                return "error: copy cannot read this type of file";
+            }
+            navigator.clipboard.writeText(asFile.contents);
+
+            return "File contents successfully copied to clipboroad";
         } else if (cmd[0] == "exec") {
             if (cmd.length < 2) {
                 return "error: exec requires a file, e.g. exec myprogram.exe";

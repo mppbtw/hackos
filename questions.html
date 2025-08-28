@@ -11,8 +11,8 @@
   <body>
     <div class="loginpage">
       <h1>Ransomware Killswich</a></h1>
-      <div style="margin-left: 15%; text-align: left; justify-self: center; justify-content: center">
-        <form onsubmit="onSubmit()" id="form" autocomplete="off">
+        <form onsubmit="onSubmit()" id="form" autocomplete="off" style="display: flex; width: 80%">
+          <div>
           <label><br>What was the name of your dog?</label>
           <input id="dog">
           <label><br>What is the name of your forbidden lover?<br></label>
@@ -21,13 +21,20 @@
           <input id="football">
           <label><br>What is the make and model of your current car?<br></label>
           <input id="car_model">
+          </div>
+          <div style="" div>
+          <div style="width: 100%">
           <label><br>What is the year of manufacture of the car?</label>
           <input id="car_year">
           <label><br>When did you get married?</label>
           <input id="marriage">
+          <label><br>What is your faviourite type of cheese?</label>
+          <input id="cheese">
+          <label><br>What is your faviourite type of cheese?</label>
+          <input id="child">
           <input type="submit" name="submit" style="visibility: hidden; width: 0px">
+          </div>
         </form>
-      </div>
     </div>
     <p class="footer">Copyright (C) Simone Imeyolek</p>
     <script>
@@ -80,13 +87,19 @@
           checkElement(document.getElementById("football"), ["newcastle", "nufc", "newcaslte united"]);
 
         numCorrect +=
+          checkElement(document.getElementById("cheese"), ["cheddar", "cheddar cheese"]);
+
+        numCorrect +=
+          checkElement(document.getElementById("child"), ["elena"]);
+
+        numCorrect +=
           checkElement(document.getElementById("marriage"), [
             "31/10/14",
             "31/10/2014",
             "october 31 2014",
             "31st october 2014",
           ]);
-        if (numCorrect == 6) {
+        if (numCorrect == 8) {
           window.location.replace("didit.html");
         }
       }
