@@ -167,6 +167,15 @@ Message content saved to E-Mail directory.`
   let downloads = new HackOSDirectory("Downloads");
   simoneDir.contents.push(downloads);
 
+  let tickets = new HackOSFile("tickets.txt");
+  tickets.contents = `This ticket code is valid for matches between the 26th of October 2022 and the 4th November 2022.
+
+Please enter this code at one of the four designated entrance points at St James' stadium.
+
+Here is your ticket code:    'GA154BH9'`
+
+  downloads.contents.push(tickets);
+
   let documents = new HackOSDirectory("Documents");
   simoneDir.contents.push(documents);
 

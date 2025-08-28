@@ -6,6 +6,26 @@ import { runVirus } from "./virus";
 const terminalWidth = 1250;
 const terminalHeight = 600;
 const terminalMaxLines = 38;
+const terminalMaxCols = 80;
+
+function textWrap(inputStr: string, lineLength: number) {
+    let lineBreakIndeces = [];
+    let currLen = 0;
+    for (let i=0; i<inputStr.length; i++) {
+        currLen++;
+        if (inputStr[i] == "\n")
+            currLen = 0;
+        if (currLen >= lineLength) {
+            lineBreakIndeces.push(i);
+            currLen = 0;
+        }
+    }
+
+    for (let i=0; i<lineBreakIndeces.length; i++) {
+        inputStr = inputStr.substring(0, lineBreakIndeces[i]) + "\n" + inputStr.substring(lineBreakIndeces[i], inputStr.length);
+    }
+    return inputStr;
+}
 
 class CmdHistory {
     cmds: string[] = [];
@@ -111,9 +131,6 @@ Type 'help' for a list of common commands
     handleKeyDown(event: KeyboardEvent) {
         if (!this.focus) return;
         if (event.key.length === 1) {
-            if (this.cmdBuffer.length > 40) {
-                return;
-            }
             let p = this.cursorPos;
             this.cmdBuffer = [
                 this.cmdBuffer.slice(0, p),
@@ -148,7 +165,6 @@ Type 'help' for a list of common commands
             }
         } else if (event.key == "Enter") {
             this.handleCommand();
-            return;
         } else if (event.key == "ArrowUp") {
             let previous = this.cmdHistory.previous();
             if (previous != undefined) {
@@ -180,7 +196,7 @@ Type 'help' for a list of common commands
             if (result.includes("error")) {
                 new Howl({src: "chord.mp3", autoplay: true});
             }
-            this.text.text += result;
+            this.text.text += textWrap(result, terminalMaxCols);
             this.text.text += "\n";
         }
         this.text.text += this.shell.getPrompt();
