@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HackOS Remote Access Tool</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" crossorigin href="/hackos/assets/loginpage-CIEeLAty.css">
+  </head>
+  <body>
+    <div class="loginpage">
+      <h1>Your did it!</a></h1>
+      <script src="https://viewescape.com/test_howler/dist/howler.js"></script>
+      <script>
+        var sound = new Howl({
+          src: "funny.mp3",
+          volume: 1,
+          loop: true,
+          autoplay: false,
+        });
+      </script>
+      <script>
+          function rickRoll() {
+            sound.play();
+              document.getElementById("rick").style.visibility = "visible";
+          }
+      </script>
+      <p>Click <a href="javascript:rickRoll()">here</a> to claim your prize</p>
+      <img src="https://camo.githubusercontent.com/f7e5c202a7a20a78c20bf636e19c069d800ca9d0150995bf43f44d4c64435aeb/68747470733a2f2f65787465726e616c2d636f6e74656e742e6475636b6475636b676f2e636f6d2f69752f3f753d68747470732533412532462532466d65646961302e67697068792e636f6d2532466d656469612532465a4535446d43714e4d723379445871315a75253246736f757263652e67696626663d31266e6f66623d31" id="rick"></img>
+      <script>
+        document.getElementById("rick").style.visibility = "hidden";
+      </script>
+    </div>
+    <p class="footer">Copyright (C) Simone Imeyolek</p>
+  </body>
+</html>
+
