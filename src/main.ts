@@ -42,6 +42,7 @@ async function allTheStuff() {
       "terminal.png",
       "mail.png",
       "bg.png",
+      "jolene.mp3",
     ]);
 
   let bg = new PIXI.Sprite(PIXI.textureFrom("bg.png"));
@@ -81,9 +82,14 @@ Message content saved to E-Mail directory.`
   function spawnMusicPlayer(audioResource: string) {
     new Howl({src: "chimes-backward.mp3", autoplay: true});
     let audioContent =
-      new MusicPlayer(audioResource, app);
+      new MusicPlayer(audioResource, app, audioResource == "jolene.mp3");
 
-    let audioWin = new Window(audioContent, "MediaViewer: " + audioResource, taskBar, "mediaviewer.png");
+    let audioWin = new Window(
+      audioContent,
+      "MediaViewer: " + audioResource,
+      taskBar,
+      "mediaviewer.png",
+    );
     audioWin.onWindowClose = audioContent.onDestroyed;
     app.stage.addChild(audioWin);
     audioWin.onWindowClose = function() {

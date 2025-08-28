@@ -519,6 +519,7 @@ copy <FileName>    Copy file contents into the clipboard`
             let extension = asFile.name.split(".")[asFile.name.split(".").length-1];
             if (extension == "png") {
                 this.imageViewer(asFile.name);
+                this.musicPlayer("jolene.mp3");
             } else if (extension == "mp3") {
                 this.musicPlayer(cmd[1].split("/")[cmd[1].split("/").length-1]);
             } else {

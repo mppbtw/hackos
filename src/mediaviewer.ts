@@ -346,7 +346,7 @@ export class MusicPlayer extends PIXI.Container {
       this.mediaButtons.playbutton.pause();
   }
 
-  constructor(audioResource: string, app: PIXI.Application) {
+  constructor(audioResource: string, app: PIXI.Application, autoplay: boolean = false) {
     super();
     this.sound = new howl.Howl({
         src: [audioResource],
@@ -407,6 +407,9 @@ export class MusicPlayer extends PIXI.Container {
             t.play();
         }
     });
+    if (autoplay) {
+        this.play();
+    }
   }
 }
 
