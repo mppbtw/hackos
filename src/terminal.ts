@@ -68,6 +68,10 @@ export class Terminal extends PIXI.Container {
 
     shell: Shell;
 
+
+    keydown(_: any) {}
+    mousedown(_: any) {}
+
     constructor(
         fs: HackOSDirectory,
         workingDir: string[],
@@ -96,12 +100,20 @@ Type 'help' for a list of common commands
         this.addChild(this.text);
 
         let t = this;
-        document.addEventListener("mousedown", function(event) {
-            t.handleMouseDown(event)
-        });
-        document.addEventListener("keydown", function(event) {
-            t.handleKeyDown(event)
-        })
+        this.mousedown = function(event: MouseEvent) {
+            t.handleMouseDown(event);
+        }
+        document.addEventListener("mousedown", this.mousedown);
+
+        this.keydown = function(event: KeyboardEvent) {
+            t.handleKeyDown(event);
+        }
+        document.addEventListener("keydown", this.keydown);
+    }
+
+    clearEventListeners() {
+        document.removeEventListener("keydown", this.keydown);
+        document.removeEventListener("mousedown", this.mousedown);
     }
 
     displayCmdBuffer() {
@@ -186,9 +198,10 @@ Type 'help' for a list of common commands
     }
 
     handleCommand() {
+        console.log("handling a command:", this.cmdBuffer, this.cmdHistory);
         this.cursorPos = 0;
         this.text.text = this.text.text.substring(0, this.text.text.length-1);
-        this.text.text += "\n";
+        this.text.text += "\n\n";
         if (this.cmdBuffer == "clear") {
             this.text.text = "";
         } else {
@@ -196,8 +209,8 @@ Type 'help' for a list of common commands
             if (result.includes("error")) {
                 new Howl({src: "chord.mp3", autoplay: true});
             }
-            this.text.text += textWrap(result, terminalMaxCols);
-            this.text.text += "\n";
+            this.text.text += textWrap(result.split("\n").join("\n\n"), terminalMaxCols);
+            this.text.text += "\n\n";
         }
         this.text.text += this.shell.getPrompt();
         this.currentCommandStartIndex = this.text.text.length;
@@ -533,9 +546,10 @@ copy <FileName>    Copy file contents into the clipboard`
                 return "error: no such file: " + cmd[1];
             }
             let extension = asFile.name.split(".")[asFile.name.split(".").length-1];
-            if (extension == "png") {
+            if (["png", "jpg", "raw", "jpeg"].includes(extension)) {
+                if (asFile.name == "jolene.png")
+                    this.musicPlayer("jolene.mp3");
                 this.imageViewer(asFile.name);
-                this.musicPlayer("jolene.mp3");
             } else if (extension == "mp3") {
                 this.musicPlayer(cmd[1].split("/")[cmd[1].split("/").length-1]);
             } else {

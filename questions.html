@@ -1,6 +1,16 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <script>
+      document.addEventListener("contextmenu", (event) => {
+        event.preventDefault();
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key == "F12") {
+          event.preventDefault();
+        }
+      });
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HackOS Remote Access Tool</title>
@@ -9,34 +19,33 @@
 
   </head>
   <body>
-    <div class="loginpage">
+    <div style=" text-align: center; margin: auto; width: 100%; justify-content:center; align-self: center; align-items: center; ">
       <h1>Ransomware Killswich</a></h1>
-        <form onsubmit="onSubmit()" id="form" autocomplete="off" style="display: flex; width: 80%">
-          <div>
-          <label><br>What was the name of your dog?</label>
+        <form onsubmit="onSubmit()" id="form" autocomplete="off" style="display: flexbox;width: 50%; overflow: auto; margin-left: 25%; margin-right: 30%;">
+          <div style="float: left; overflow: auto; width:50%">
+          <label><br>What is the name of your dog?</label>
           <input id="dog">
-          <label><br>What is the name of your forbidden lover?<br></label>
+          <label><br>What is the name of your partner?<br></label>
           <input id="lover">
           <label><br>Which football team do you support?<br></label>
           <input id="football">
           <label><br>What is the make and model of your current car?<br></label>
           <input id="car_model">
           </div>
-          <div style="" div>
-          <div style="width: 100%">
-          <label><br>What is the year of manufacture of the car?</label>
+          <div style="float: right; overflow: auto; width: 50%">
+            <label><br>What is the year of manufacture of the car?<br></label>
           <input id="car_year">
-          <label><br>When did you get married?</label>
+          <label><br>When did you get married?<br></label>
           <input id="marriage">
-          <label><br>What is your faviourite type of cheese?</label>
+          <label><br>What is your faviourite type of cheese?<br></label>
           <input id="cheese">
-          <label><br>What is your child's first name?</label>
-          <input id="child">
+          <label><br>What is your child's first name?<br></label>
+          <input id="child"><br>
           <input type="submit" name="submit" style="visibility: hidden; width: 0px">
           </div>
         </form>
     </div>
-    <p class="footer">Copyright (C) Simone Imeyolek</p>
+    <p class="footer">HackOS Remote Tool version 7.9 Copyright (C) Simone Imeyolek</p>
     <script>
       document
         .getElementById("form")
@@ -100,7 +109,7 @@
             "31st october 2014",
           ]);
         if (numCorrect == 8) {
-          window.location.replace("didit.html");
+          setTimeout(() => window.location.replace("didit.html"), 300);
         }
       }
     </script>

@@ -43,6 +43,7 @@ async function allTheStuff() {
       "mail.png",
       "bg.png",
       "jolene.mp3",
+      "vroom.jpeg",
     ]);
 
   let bg = new PIXI.Sprite(PIXI.textureFrom("bg.png"));
@@ -120,6 +121,9 @@ Message content saved to E-Mail directory.`
     win.onMaximize = function() {
       terminalContent.focus = true;
     }
+    win.onWindowClose = () => {
+      terminalContent.clearEventListeners();
+    };
     app.stage.addChild(win);
   }
 
@@ -184,6 +188,9 @@ Here is your ticket code:    'GA154BH9'`
 
     let dogPhoto = new HackOSFile("jolene.png");
     pictures.contents.push(dogPhoto);
+
+    let carPhoto = new HackOSFile("vroom.jpeg");
+    pictures.contents.push(carPhoto);
 
   let music = new HackOSDirectory("Music");
   simoneDir.contents.push(music);
