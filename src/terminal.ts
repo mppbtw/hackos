@@ -474,7 +474,7 @@ copy <FileName>    Copy file contents into the clipboard`
             if (cmd[1].split("/")[cmd[1].split("/").length-1] == "disable_ransom.exe") {
                 //@ts-ignore
                 window.open("questions.html", "__blank").focus();
-                return "Uh oh!"
+                return "Opening ransomware security questions";
             }
             return "error: " + cmd[1] + " is not an executable program";
         } else if (cmd[0] == "") {

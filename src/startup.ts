@@ -5,6 +5,8 @@ export async function showLoadingScreen(app: PIXI.Application) {
     .rect(0, 0, window.innerWidth, window.innerHeight)
     .fill(0);
     let logo = new PIXI.Sprite(PIXI.textureFrom("hacker.png"))
+    logo.width = 200;
+    logo.height = 200;
     logo.x = (0.5*window.innerWidth) - (0.5*logo.width);
     logo.y = (0.5*window.innerHeight) - (0.5*logo.height);
 

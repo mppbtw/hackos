@@ -23,7 +23,7 @@
       <h1>Ransomware Killswich</a></h1>
         <form onsubmit="onSubmit()" id="form" autocomplete="off" style="display: flexbox;width: 50%; overflow: auto; margin-left: 25%; margin-right: 30%;">
           <div style="float: left; overflow: auto; width:50%">
-          <label><br>What is the name of your dog?</label>
+          <label><br>What is the name of your dog?<br></label>
           <input id="dog">
           <label><br>What is the name of your partner?<br></label>
           <input id="lover">
@@ -31,6 +31,8 @@
           <input id="football">
           <label><br>What is the make and model of your current car?<br></label>
           <input id="car_model">
+          <label><br>What is your faviourite snake?<br></label>
+          <input id="snake"><br>
           </div>
           <div style="float: right; overflow: auto; width: 50%">
             <label><br>What is the year of manufacture of the car?<br></label>
@@ -41,11 +43,13 @@
           <input id="cheese">
           <label><br>What is your child's first name?<br></label>
           <input id="child"><br>
+          <label><br>What is your favourite singer?<br></label>
+          <input id="singer"><br>
           <input type="submit" name="submit" style="visibility: hidden; width: 0px">
           </div>
         </form>
     </div>
-    <p class="footer">HackOS Remote Tool version 7.9 Copyright (C) Simone Imeyolek</p>
+    <p class="footer">HackOS Remote Tool version 7.9 Copyright (C) 1993 Simone Imeyolek</p>
     <script>
       document
         .getElementById("form")
@@ -102,13 +106,19 @@
           checkElement(document.getElementById("child"), ["elena"]);
 
         numCorrect +=
+          checkElement(document.getElementById("singer"), ["george michael"]);
+
+        numCorrect +=
+          checkElement(document.getElementById("snake"), ["milk snake", "milk", "milksnake"]);
+
+        numCorrect +=
           checkElement(document.getElementById("marriage"), [
             "31/10/14",
             "31/10/2014",
             "october 31 2014",
             "31st october 2014",
           ]);
-        if (numCorrect == 8) {
+        if (numCorrect == 10) {
           setTimeout(() => window.location.replace("didit.html"), 300);
         }
       }
