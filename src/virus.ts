@@ -88,5 +88,5 @@ export async function runVirus(app: PIXI.Application, taskBar: TaskBar) {
     new Howl({src: "oops.mp3", autoplay: true});
 
     await new Promise(r => setTimeout(r, 1000));
-    window.location.replace("https://www.google.com/search?q=melon&sca_esv=2fdb4996cfdf24b0&hl=en-GB&source=hp&biw=1920&bih=959&ei=8DSuaO6ONcyckdUP5-nquAU&iflsig=AOw8s4IAAAAAaK5DAC8QZO0NAH9Hs7Fbg5vJ9uwHc7Fp&ved=0ahUKEwjuxsH6wqmPAxVMTqQEHee0GlcQ4dUDCA0&uact=5&oq=melon&gs_lp=EgNpbWciBW1lbG9uMggQABiABBixAzIIEAAYgAQYsQMyCxAAGIAEGLEDGIMBMggQABiABBixAzIIEAAYgAQYsQMyBRAAGIAEMgsQABiABBixAxiKBTIIEAAYgAQYsQMyBxAAGIAEGAoyCBAAGIAEGLEDSOMKUOYCWL0GcAB4AJABAJgBNKAB5AGqAQE1uAEDyAEA-AEBigILZ3dzLXdpei1pbWeYAgWgAqUCqAIAwgIOEAAYgAQYsQMYgwEYigWYAwiSBwE1oAfgF7IHATW4B6UCwgcHMi0yLjIuMcgHOg&sclient=img&udm=2");
+    window.location.href = "https://www.google.com/search?q=melon&sca_esv=2fdb4996cfdf24b0&hl=en-GB&source=hp&biw=1920&bih=959&ei=8DSuaO6ONcyckdUP5-nquAU&iflsig=AOw8s4IAAAAAaK5DAC8QZO0NAH9Hs7Fbg5vJ9uwHc7Fp&ved=0ahUKEwjuxsH6wqmPAxVMTqQEHee0GlcQ4dUDCA0&uact=5&oq=melon&gs_lp=EgNpbWciBW1lbG9uMggQABiABBixAzIIEAAYgAQYsQMyCxAAGIAEGLEDGIMBMggQABiABBixAzIIEAAYgAQYsQMyBRAAGIAEMgsQABiABBixAxiKBTIIEAAYgAQYsQMyBxAAGIAEGAoyCBAAGIAEGLEDSOMKUOYCWL0GcAB4AJABAJgBNKAB5AGqAQE1uAEDyAEA-AEBigILZ3dzLXdpei1pbWeYAgWgAqUCqAIAwgIOEAAYgAQYsQMYgwEYigWYAwiSBwE1oAfgF7IHATW4B6UCwgcHMi0yLjIuMcgHOg&sclient=img&udm=2";
 }
