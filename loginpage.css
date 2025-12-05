@@ -16,6 +16,19 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+button {
+    height:100%;
+    margin-top:10%;
+    background-color: whitesmoke;
+    border-radius: 10px;
+    outline-offset: 10px;
+    border-width: 10px;
+}
+button:hover {
+    background-color: #DDDDDD;
+}
+
+
 .loginpage {
     text-align: center;
     margin: auto;
