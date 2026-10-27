@@ -61,7 +61,7 @@ async function allTheStuff() {
     app.renderer.resize(window.innerWidth, window.innerHeight);
   });
 
-  //await showLoadingScreen(app);
+  await showLoadingScreen(app);
 
   var taskBar = new TaskBar();
   taskBar.y = window.innerHeight - taskBar.innerHeight;
@@ -70,12 +70,35 @@ async function allTheStuff() {
   function spawnBrowser() {
     console.log("oiajwdoajwd");
     let browser_content = new Browser();
+    browser_content.interactive = true;
     let browser_win = new Window(browser_content, "bowzer", taskBar, "mail.png");
     app.stage.addChild(browser_win);
     let iframe = document.getElementById("browserwindow")!;
+
+    browser_win.onWindowClose = () => {
+      //@ts-ignore
+      iframe.src = "";
+      iframe.style.visibility = "hidden";
+    };
+    browser_win.onMinimize = () => {
+      iframe.style.visibility = "hidden";
+    }
+
+    browser_win.onMaximize = () => {
+      iframe.style.visibility = "visible";
+    }
+
+    browser_content.onChangePage = () => {
+      //@ts-ignore
+      iframe.src = browser_content.current_source;
+    }
+
     iframe.style.width = "800px";
     iframe.style.visibility = "visible";
-    iframe.src = "http://localhost:8080";
+    const default_page = "http://localhost:8080";
+    browser_content.changePage(default_page);
+    //@ts-ignore
+    iframe.src = default_page;
     iframe.style.height = "470px";
     iframe.style.left = browser_win.x + "px";
     iframe.style.border = "none";
