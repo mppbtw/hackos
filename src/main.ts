@@ -10,6 +10,7 @@ import { backgroundColor } from "./constants.ts";
 import { HackOSDirectory, HackOSFile, Terminal } from "./terminal.ts";
 import { ImageViewer, MusicPlayer } from "./mediaviewer.ts";
 import { showLoadingScreen } from "./startup.ts";
+import { Browser } from "./webbrowser.ts";
 
 PIXI.TextureStyle.defaultOptions.scaleMode = "nearest";
 
@@ -60,11 +61,31 @@ async function allTheStuff() {
     app.renderer.resize(window.innerWidth, window.innerHeight);
   });
 
-  await showLoadingScreen(app);
+  //await showLoadingScreen(app);
 
   var taskBar = new TaskBar();
   taskBar.y = window.innerHeight - taskBar.innerHeight;
   app.stage.addChild(taskBar);
+
+  function spawnBrowser() {
+    console.log("oiajwdoajwd");
+    let browser_content = new Browser();
+    let browser_win = new Window(browser_content, "bowzer", taskBar, "mail.png");
+    app.stage.addChild(browser_win);
+    let iframe = document.getElementById("browserwindow")!;
+    iframe.style.width = "800px";
+    iframe.src = "http://localhost:8080";
+    iframe.style.height = "470px";
+    ( async () => {
+      while (true) {
+        await new Promise(r => setTimeout(r, 5));
+        if (browser_win.dragged) {
+          iframe.style.left = browser_win.x + "px";
+          iframe.style.top = browser_win.y + 60+ "px" ;
+        }
+      }
+    })();
+  }
 
   function spawnNotification() {
     new Howl({src: "notify.mp3", autoplay: true, volume: 1});
@@ -238,6 +259,25 @@ Copy them, then let CyberChef uncover my meaning.`;
   app.stage.addChild(terminalText);
   app.stage.addChild(terminalShortcut);
 
+  let browserShortcut = new Shortcut("mail.png");
+  browserShortcut.x = 70;
+  browserShortcut.y = 350;
+  browserShortcut.onclick = spawnBrowser;
+  app.stage.addChild(browserShortcut);
+
+  let browserText = new PIXI.Text({
+    text: "Browser\nWeb",
+    style: {
+      align: "center",
+      fontFamily: "Press Start 2P",
+      fontSize: 12,
+      fontWeight: "lighter",
+      fill: "white",
+    }
+  })
+  browserText.x = 55;
+  browserText.y = browserShortcut.y + 50;
+  app.stage.addChild(browserText);
 
   let notificationShortcut = new Shortcut("mail.png");
   notificationShortcut.x = 70;
