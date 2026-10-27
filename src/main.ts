@@ -74,11 +74,15 @@ async function allTheStuff() {
     app.stage.addChild(browser_win);
     let iframe = document.getElementById("browserwindow")!;
     iframe.style.width = "800px";
+    iframe.style.visibility = "visible";
     iframe.src = "http://localhost:8080";
     iframe.style.height = "470px";
+    iframe.style.left = browser_win.x + "px";
+    iframe.style.border = "none";
+    iframe.style.top = browser_win.y + 60+ "px" ;
     ( async () => {
       while (true) {
-        await new Promise(r => setTimeout(r, 5));
+        await new Promise(r => setTimeout(r, 2));
         if (browser_win.dragged) {
           iframe.style.left = browser_win.x + "px";
           iframe.style.top = browser_win.y + 60+ "px" ;

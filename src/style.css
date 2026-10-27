@@ -33,6 +33,7 @@ app {
 
 .browser {
   position: fixed;
+  visibility: hidden;
 }
 
 @media (prefers-color-scheme: light) {
