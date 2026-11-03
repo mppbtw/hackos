@@ -59,3 +59,11 @@ div#stats {
   opacity: 0.8;
   user-select: none;
 }
+
+#browser-bg-box {
+  background-color: white;
+  position: fixed;
+  width: 470px;
+  height: 470px;
+  visibility: hidden;
+}

@@ -45,6 +45,7 @@ async function allTheStuff() {
       "bg.png",
       "jolene.mp3",
       "vroom.jpeg",
+      "pixcelchorea.jpg"
     ]);
 
   let bg = new PIXI.Sprite(PIXI.textureFrom("bg.png"));
@@ -71,7 +72,7 @@ async function allTheStuff() {
     console.log("oiajwdoajwd");
     let browser_content = new Browser();
     browser_content.interactive = true;
-    let browser_win = new Window(browser_content, "bowzer", taskBar, "mail.png");
+    let browser_win = new Window(browser_content, "Web Browser", taskBar, "pixcelchorea.jpg");
     app.stage.addChild(browser_win);
     let iframe = document.getElementById("browserwindow")!;
 
@@ -93,22 +94,32 @@ async function allTheStuff() {
       iframe.src = browser_content.current_source;
     }
 
-    iframe.style.width = "800px";
+    iframe.style.width = "796px";
     iframe.style.visibility = "visible";
     const default_page = "http://localhost:8080";
     browser_content.changePage(default_page);
     //@ts-ignore
     iframe.src = default_page;
     iframe.style.height = "470px";
-    iframe.style.left = browser_win.x + "px";
+    iframe.style.left = browser_win.x + 2 + "px";
     iframe.style.border = "none";
     iframe.style.top = browser_win.y + 60+ "px" ;
+
+    let bgBox = document.getElementById("browser-bg-box")!;
+    bgBox.style.visibility = "visible";
+    bgBox.style.width = "796px";
+    bgBox.style.height = "470px";
+    bgBox.style.left = browser_win.x + 2 + "px";
+    bgBox.style.top = browser_win.y + 60 + "px";
+
     ( async () => {
       while (true) {
         await new Promise(r => setTimeout(r, 2));
         if (browser_win.dragged) {
           iframe.style.left = browser_win.x + "px";
-          iframe.style.top = browser_win.y + 60+ "px" ;
+          iframe.style.top = browser_win.y + 60 + "px" ;
+          bgBox.style.left = browser_win.x + "px";
+          bgBox.style.top = browser_win.y + 60 + "px";
         }
       }
     })();
@@ -286,7 +297,7 @@ Copy them, then let CyberChef uncover my meaning.`;
   app.stage.addChild(terminalText);
   app.stage.addChild(terminalShortcut);
 
-  let browserShortcut = new Shortcut("mail.png");
+  let browserShortcut = new Shortcut("pixcelchorea.jpg");
   browserShortcut.x = 70;
   browserShortcut.y = 350;
   browserShortcut.onclick = spawnBrowser;

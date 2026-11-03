@@ -4,6 +4,9 @@ import { defineConfig } from "vite";
 export default defineConfig({
   base: "/",
   plugins: [],
+  server: {
+    cors: true,
+  },
   build: {
     target: "esnext",
     rollupOptions: {

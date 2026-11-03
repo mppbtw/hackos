@@ -45,14 +45,27 @@ export async function showLoadingScreen(app: PIXI.Application) {
 
     let sound = new Howl({src: "startup.mp3", autoplay: true});
     sound.play();
+    let skipped = false;
     
     let numBarTicks = 50;
     for (let i=0; i<numBarTicks; i++) {
+        document.addEventListener("keydown", (e) => {
+            if (e.key == "p") {
+                skipped = true;
+                localStorage.setItem("isDeveloper", "true");
+            }
+        });
+        if (skipped) {
+            break;
+        }
         await new Promise(r => setTimeout(r, (sound.duration()*1000)/numBarTicks));
         barProgress += 1/numBarTicks;
         updateBar();
     }
-    await new Promise(r => setTimeout(r, 500));
+    if (!skipped) {
+        await new Promise(r => setTimeout(r, 500));
+        localStorage.setItem("isDeveloper", "false");
+    }
     app.stage.removeChild(bar);
     app.stage.removeChild(bg);
     app.stage.removeChild(logo);

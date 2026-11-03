@@ -1,16 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <script>
-      document.addEventListener("contextmenu", (event) => {
-        //event.preventDefault();
-      });
-      document.addEventListener("keydown", (event) => {
-        if (event.key == "F12") {
-          //event.preventDefault();
-        }
-      });
-    </script>
+    <script type="module" src="/src/developerMode.ts"> </script>
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
     <script>
       WebFont.load({
@@ -27,6 +18,7 @@
   </head>
   <body>
   <div id="app"></div>
+  <div id="browser-bg-box"></div>
   <iframe id="browserwindow" class="browser"></iframe>
   <div id="stats"></div>
   <script type="module" src="/src/main.ts"></script>
